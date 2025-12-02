@@ -23,6 +23,7 @@ const app = createApp(Application);
 // Global variable
 app.provide("notify", notify);
 app.provide("moment", moment);
+app.provide("bootstrap", bootstrap);
 
 // app component assign
 app.component("VueDatePicker", VueDatePicker);
@@ -34,6 +35,5 @@ app
   .use(Notifications)
   .use(VueProgressBar, VueProgressBarOptions)
   .use(initialize)
-  .use(bootstrap)
   .use(moment)
   .mount("#app");

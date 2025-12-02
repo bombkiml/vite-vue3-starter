@@ -1,7 +1,3 @@
-<script setup>
-import HelloWorld from "@/components/HelloWorld.vue";
-</script>
-
 <template>
   <div class="flex h-screen justify-center items-center">
     <div class="text-center">
@@ -9,7 +5,7 @@ import HelloWorld from "@/components/HelloWorld.vue";
 
       <div class="text-center">
 
-        <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+        <nav v-if="isLogin" class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
           <div class="container-fluid">
             <a class="navbar-brand" href="#">Navbar</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,16 +14,16 @@ import HelloWorld from "@/components/HelloWorld.vue";
             <div class="collapse navbar-collapse" id="navbarColor01">
               <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                  <router-link class="nav-link active" to="/">Home</router-link>
+                  <router-link class="nav-link" :class="isUrl == '/home' ? 'active' : false" to="/">Home</router-link>
                 </li>
                 <li class="nav-item">
-                  <router-link class="nav-link" to="/about">About</router-link>
+                  <router-link class="nav-link" :class="isUrl == '/about' ? 'active' : false" to="/about">About</router-link>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="#">Pricing</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#">About</a>
+                  <a class="nav-link" href="#">Something</a>
                 </li>
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
@@ -40,10 +36,6 @@ import HelloWorld from "@/components/HelloWorld.vue";
                   </div>
                 </li>
               </ul>
-              <div class="d-flex">
-                <input class="form-control me-sm-2" type="search" placeholder="Search">
-                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-              </div>
             </div>
           </div>
         </nav>
@@ -74,6 +66,29 @@ import HelloWorld from "@/components/HelloWorld.vue";
     </div>
   </div>
 </template>
+
+<script setup>
+import HelloWorld from "@/components/HelloWorld.vue";
+import { ref, computed, onMounted, inject } from "vue";
+import { useRouter } from "vue-router";
+// router
+const router = useRouter();
+
+// is login
+const isLogin = computed(() => {
+  return router.currentRoute.value.fullPath.match(/^\/(login|logout).*$/) ? false : true;
+});
+
+// current url
+const isUrl = computed(() => {
+  return router.currentRoute.value.fullPath;
+});
+
+onMounted(() => {
+  console.log("isLogin:", isLogin.value);
+});
+
+</script>
 
 <style scoped>
 .fade-enter-active,
